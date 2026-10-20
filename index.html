@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoodLoop – Good food deserves another destination</title>
+<meta name="description" content="FoodLoop connects surplus food from canteens, restaurants and events with NGOs and community kitchens near you.">
+<meta property="og:title" content="FoodLoop – Community food redistribution">
+<meta property="og:description" content="Connecting surplus food with the people and communities who need it, one pickup at a time.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='14' fill='%23183D32'/%3E%3Cpath d='M24 9a15 15 0 1 0 15 15' fill='none' stroke='%23F6F3EA' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M24 31c-5-1-7-5-6-10 5 0 9 2 9 7z' fill='%23C87552'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Logo symbol (reused everywhere). Loop = redistribution, leaf = food, dot = community node -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-mark" viewBox="0 0 48 48">
+    <path d="M24 7a17 17 0 1 0 17 17" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M24 33c-6-1-9-6-8-12 6 0 11 3 11 9 0 1.2-.8 3-3 3z" fill="var(--logo-accent,#C87552)"/>
+    <circle cx="38" cy="10" r="4.5" fill="var(--logo-accent,#C87552)"/>
+  </symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Logo (top left) -->
+<a class="brand" href="#home" data-route="home" aria-label="FoodLoop home">
+  <svg class="brand-mark" aria-hidden="true"><use href="#logo-mark"/></svg>
+  <span class="brand-word">FoodLoop</span>
+</a>
+
+<!-- Hover-activated hamburger (top right) -->
+<div class="menu-wrap" id="menuWrap">
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="menu" id="menu" aria-label="Main menu">
+    <a href="#home" data-route="home">Home</a>
+    <a href="#discover" data-route="discover">Discover Food</a>
+    <a href="#how" data-route="how">How It Works</a>
+    <a href="#impact" data-route="impact">Our Impact</a>
+    <a href="#dash" data-route="dash">Dashboards</a>
+  </nav>
+</div>
+
+<!-- Active pickup floating pill -->
+<div class="pill" id="pill" hidden role="status" aria-live="polite">
+  <span class="pill-dot" aria-hidden="true"></span>
+  <div class="pill-text"><strong id="pillTitle"></strong><small id="pillSub"></small></div>
+  <button class="pill-btn" id="pillAction" type="button">Open</button>
+</div>
+
+<main id="main">
+
+<!-- ================= HOME ================= -->
+<section class="view" id="view-home" data-title="FoodLoop – Good food deserves another destination">
+  <div class="hero">
+    <div class="hero-copy">
+      <h1>Good food.<br>A second chance.<br>A better tomorrow.</h1>
+      <p class="lead">FoodLoop brings communities together to rescue surplus food and redirect it where it matters most.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#discover" data-route="discover"><i data-lucide="map-pin"></i>Find Food Nearby</a>
+        <a class="btn btn-ghost" href="#donate" data-route="donate"><i data-lucide="heart-handshake"></i>Share Surplus Food</a>
+      </div>
+      <p class="mission">Built for communities. Designed to reduce waste.</p>
+    </div>
+    <div class="hero-art" id="heroArt" aria-hidden="true">
+      <svg viewBox="0 0 520 520" class="art">
+        <defs>
+          <radialGradient id="gBowl" cx="35%" cy="30%"><stop offset="0" stop-color="#FFFDF7"/><stop offset="1" stop-color="#D9CCB2"/></radialGradient>
+          <radialGradient id="gTom" cx="35%" cy="30%"><stop offset="0" stop-color="#E58C68"/><stop offset="1" stop-color="#A84F2F"/></radialGradient>
+          <radialGradient id="gLeaf" cx="30%" cy="30%"><stop offset="0" stop-color="#7FA37F"/><stop offset="1" stop-color="#2F5A41"/></radialGradient>
+          <filter id="soft"><feGaussianBlur stdDeviation="9"/></filter>
+        </defs>
+        <circle cx="260" cy="260" r="215" fill="none" stroke="#527A57" stroke-width="2" stroke-dasharray="3 12" stroke-linecap="round" class="orbit"/>
+        <g data-depth="0.4">
+          <ellipse cx="260" cy="420" rx="140" ry="20" fill="#183D32" opacity=".28" filter="url(#soft)"/>
+        </g>
+        <g data-depth="1">
+          <path d="M120 270h280c0 80-62 140-140 140S120 350 120 270z" fill="url(#gBowl)"/>
+          <ellipse cx="260" cy="270" rx="140" ry="30" fill="#EFE6D2"/>
+          <ellipse cx="260" cy="272" rx="118" ry="21" fill="#527A57"/>
+        </g>
+        <g data-depth="1.8">
+          <circle cx="215" cy="238" r="38" fill="url(#gTom)"/>
+          <circle cx="300" cy="228" r="32" fill="url(#gTom)"/>
+          <path d="M200 205c10 10 22 10 30 0-8-4-22-4-30 0z" fill="#2F5A41"/>
+          <path d="M165 250c20-60 70-70 100-40-10 40-60 60-100 40z" fill="url(#gLeaf)"/>
+          <path d="M330 240c-4-50 30-80 66-70 6 40-20 70-66 70z" fill="url(#gLeaf)"/>
+        </g>
+        <g data-depth="2.6">
+          <g transform="translate(60 150)"><rect width="132" height="46" rx="23" fill="#FFFFFF" opacity=".92"/><circle cx="24" cy="23" r="8" fill="#527A57"/><text x="42" y="28" font-size="14" font-weight="700" fill="#252B26" font-family="Manrope,sans-serif">Canteen</text></g>
+          <g transform="translate(350 330)"><rect width="140" height="46" rx="23" fill="#183D32"/><circle cx="24" cy="23" r="8" fill="#C87552"/><text x="42" y="28" font-size="14" font-weight="700" fill="#F6F3EA" font-family="Manrope,sans-serif">NGO pickup</text></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Problem -->
+  <section class="chapter chapter-problem">
+    <h2 class="big">Too much food is wasted. Too many people need it.</h2>
+    <div class="problem-grid">
+      <p>Canteens, restaurants and events often finish the day with safe, edible food and no way to move it in time.</p>
+      <p>Collection windows are short. Coordination happens over scattered phone calls. Trusted partners are hard to find.</p>
+      <p>FoodLoop gives donors one place to list surplus and recipients one place to claim it.</p>
+    </div>
+  </section>
+
+  <!-- Loop diagram -->
+  <section class="chapter chapter-loop">
+    <h2>One loop, five stops</h2>
+    <p class="sub">Tap any stop to see what happens there.</p>
+    <div class="loop-wrap">
+      <div class="loop-stages" id="loopStages" role="tablist" aria-label="Food redistribution stages"></div>
+      <div class="loop-card" id="loopCard" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- How it works preview -->
+  <section class="chapter chapter-steps">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li class="step s1"><i data-lucide="clipboard-list"></i><h3>List surplus food</h3><p>Donors describe what is available and when it must be collected.</p></li>
+      <li class="step s2"><i data-lucide="search"></i><h3>Discover a match</h3><p>Anyone can browse the map and list. No account needed.</p></li>
+      <li class="step s3"><i data-lucide="route"></i><h3>Coordinate pickup</h3><p>Get directions in Google Maps and contact the coordinator.</p></li>
+      <li class="step s4"><i data-lucide="party-popper"></i><h3>Confirm redistribution</h3><p>Mark the handover done and see the people you helped feed.</p></li>
+    </ol>
+  </section>
+
+  <!-- Preview listings -->
+  <section class="chapter chapter-preview">
+    <div class="row-head">
+      <div><h2>Food available now</h2><p class="sub">Sample listings for this prototype.</p></div>
+      <a class="btn btn-primary" href="#discover" data-route="discover">Explore All Food</a>
+    </div>
+    <div class="track" id="previewTrack" tabindex="0" aria-label="Sample food listings, scroll sideways"></div>
+  </section>
+
+  <!-- Impact preview -->
+  <section class="chapter chapter-impact-prev">
+    <h2>Impact, counted honestly</h2>
+    <p class="sub">Figures come from donations recorded in this browser. Sample data is labelled.</p>
+    <div class="stat-row" id="homeStats"></div>
+    <a class="btn btn-ghost" href="#impact" data-route="impact">See the full impact page</a>
+  </section>
+
+  <!-- Pathways -->
+  <section class="chapter chapter-paths">
+    <a class="path path-donor" href="#donate" data-route="donate">
+      <h3>For Food Donors</h3><p>Restaurants, canteens, hostels and event teams: list edible surplus in about two minutes.</p><span class="btn btn-light">Donate Now</span>
+    </a>
+    <a class="path path-ngo" href="#discover" data-route="discover">
+      <h3>For NGOs and Community Kitchens</h3><p>See what is available near you and claim it with one slide.</p><span class="btn btn-terra">Find Food Here</span>
+    </a>
+  </section>
+
+  <section class="chapter chapter-final">
+    <h2 class="big">Make surplus food matter.</h2>
+    <p class="lead">One listing can connect good food with someone who needs it.</p>
+    <div class="cta-row">
+      <a class="btn btn-terra" href="#donate" data-route="donate">Donate Surplus Food</a>
+      <a class="btn btn-light" href="#discover" data-route="discover">Find Available Food</a>
+    </div>
+  </section>
+</section>
+
+<!-- ================= DISCOVER ================= -->
+<section class="view" id="view-discover" data-title="Discover Food – FoodLoop" hidden>
+  <header class="page-head">
+    <h1>Find food near you</h1>
+    <p class="lead">No login needed. Pick a listing, see the route, and claim it.</p>
+  </header>
+
+  <div class="filters" role="search">
+    <label class="field grow"><span>Search by food name</span>
+      <input type="search" id="fSearch" placeholder="For example: biryani, bread, fruit"></label>
+    <label class="field"><span>Category</span>
+      <select id="fCategory"><option value="">All food</option></select></label>
+    <label class="field"><span>Sort by</span>
+      <select id="fSort">
+        <option value="urgent">Collect soonest</option>
+        <option value="distance">Nearest to me</option>
+        <option value="quantity">Most servings</option>
+      </select></label>
+    <label class="field"><span>Distance</span>
+      <select id="fDist"><option value="0">Any distance</option><option value="2">Within 2 km</option><option value="5">Within 5 km</option><option value="10">Within 10 km</option></select></label>
+    <div class="chips" id="fDiet" role="group" aria-label="Dietary filter">
+      <button type="button" class="chip on" data-diet="">All</button>
+      <button type="button" class="chip" data-diet="veg"><span class="vd veg"></span>Veg only</button>
+      <button type="button" class="chip" data-diet="nonveg"><span class="vd nonveg"></span>Non-veg</button>
+      <button type="button" class="chip" data-avail="1">Available now</button>
+    </div>
+    <button class="btn btn-ghost" id="locateBtn" type="button"><i data-lucide="locate-fixed"></i>Use my location</button>
+  </div>
+
+  <p class="loc-note" id="locNote">Distances are measured from the demo starting point (campus gate) until you share your location.</p>
+
+  <div class="discover-grid">
+    <div class="map-col">
+      <div id="map" role="region" aria-label="Map of food listings"></div>
+      <p class="map-hint">Tap a marker, then choose “Get Directions” to open Google Maps.</p>
+    </div>
+    <div class="list-col">
+      <div id="listState" aria-live="polite"></div>
+      <div id="listGrid" class="list-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW ================= -->
+<section class="view" id="view-how" data-title="How It Works – FoodLoop" hidden>
+  <header class="page-head"><h1>How FoodLoop works</h1><p class="lead">From a full tray to a collected meal, in four clear steps.</p></header>
+  <div class="how-list" id="howList"></div>
+  <div class="trust">
+    <h2>Trust and safety</h2>
+    <ul>
+      <li><strong>Verified donors.</strong> Recognised donors carry a shield badge after an admin reviews them.</li>
+      <li><strong>Your responsibility.</strong> Donors confirm food is safe. FoodLoop coordinates pickups; it does not certify any food item.</li>
+      <li><strong>Report a listing.</strong> Use the report button on any listing if something looks wrong.</li>
+      <li><strong>Privacy.</strong> We only ask for what is needed to arrange a pickup. Demo data stays in your browser.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= IMPACT ================= -->
+<section class="view" id="view-impact" data-title="Our Impact – FoodLoop" hidden>
+  <header class="page-head"><h1>Community impact</h1><p class="lead">Totals update when a pickup is marked complete.</p></header>
+  <div class="data-flag" id="dataFlag"></div>
+  <div class="stat-row" id="impactStats"></div>
+  <div class="panel">
+    <h2>Servings redistributed by category</h2>
+    <div class="bars" id="impactBars"></div>
+  </div>
+  <div class="panel">
+    <h2>Recent completed pickups</h2>
+    <ul class="timeline" id="impactTimeline"></ul>
+  </div>
+  <div class="panel method">
+    <h2>How we estimate</h2>
+    <p>Servings are the number the donor entered. Food weight is estimated at 0.4 kg per serving. We count a pickup only after the recipient confirms collection. These are estimates and not a measure of waste prevented.</p>
+  </div>
+</section>
+
+<!-- ================= DASHBOARDS ================= -->
+<section class="view" id="view-dash" data-title="Dashboards – FoodLoop" hidden>
+  <header class="page-head"><h1>Dashboards</h1><p class="lead">Demo mode: pick a role to try each side. This is not secure sign-in.</p></header>
+  <div class="tabs" role="tablist" aria-label="Choose a dashboard">
+    <button role="tab" class="tab on" data-tab="donor" aria-selected="true">Food donor</button>
+    <button role="tab" class="tab" data-tab="recipient" aria-selected="false">NGO / recipient</button>
+    <button role="tab" class="tab" data-tab="admin" aria-selected="false">Admin</button>
+  </div>
+  <div id="dashBody" role="tabpanel"></div>
+</section>
+
+<!-- ================= DONATE ================= -->
+<section class="view" id="view-donate" data-title="Donate Food – FoodLoop" hidden>
+  <header class="page-head"><h1>Donate surplus food</h1><p class="lead">Fill in the details. Your listing appears on the map straight away.</p></header>
+  <form id="donateForm" class="form" novalidate>
+    <label class="field"><span>What food is it?</span><input id="dTitle" required maxlength="80" placeholder="For example: Vegetable pulao"><small class="err" data-for="dTitle"></small></label>
+    <div class="two">
+      <label class="field"><span>Category</span><select id="dCategory" required></select><small class="err" data-for="dCategory"></small></label>
+      <fieldset class="field"><legend>Diet type</legend>
+        <label class="radio"><input type="radio" name="dDiet" value="veg" checked><span class="vd veg"></span>Vegetarian</label>
+        <label class="radio"><input type="radio" name="dDiet" value="nonveg"><span class="vd nonveg"></span>Non-vegetarian</label>
+      </fieldset>
+    </div>
+    <label class="field"><span>Short description</span><textarea id="dDesc" rows="2" maxlength="200" placeholder="What is in it, how it is packed"></textarea></label>
+    <div class="two">
+      <label class="field"><span>Estimated servings</span><input id="dServings" type="number" min="1" max="2000" required><small class="err" data-for="dServings"></small></label>
+      <label class="field"><span>Allergens (if known)</span><input id="dAllergens" placeholder="For example: nuts, dairy, gluten"></label>
+    </div>
+    <div class="two">
+      <label class="field"><span>Cooked or made at</span><input id="dMade" type="time" required><small class="err" data-for="dMade"></small></label>
+      <label class="field"><span>Collect before</span><input id="dDeadline" type="time" required><small class="err" data-for="dDeadline"></small></label>
+    </div>
+    <label class="field"><span>Storage or handling note</span><input id="dHandling" placeholder="For example: keep hot, reheat before serving"><small class="err" data-for="dHandling"></small></label>
+    <div class="two">
+      <label class="field"><span>Your organisation</span><input id="dOrg" required placeholder="For example: Campus Canteen"><small class="err" data-for="dOrg"></small></label>
+      <label class="field"><span>Coordinator phone</span><input id="dPhone" type="tel" required placeholder="10-digit number"><small class="err" data-for="dPhone"></small></label>
+    </div>
+    <label class="field"><span>Pickup address</span><input id="dAddress" required placeholder="Street, area, city"><small class="err" data-for="dAddress"></small></label>
+    <label class="check"><input type="checkbox" id="dSafe" required> I confirm this food is safe and fit to be eaten.</label>
+    <small class="err" data-for="dSafe"></small>
+    <button class="btn btn-primary btn-lg" id="dSubmit" type="submit">Post my listing</button>
+  </form>
+</section>
+
+<!-- 404 -->
+<section class="view" id="view-404" data-title="Page not found – FoodLoop" hidden>
+  <header class="page-head"><h1>We could not find that page</h1><a class="btn btn-primary" href="#home" data-route="home">Back to home</a></header>
+</section>
+
+</main>
+
+<!-- Listing detail drawer -->
+<aside class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="drawer-panel" id="drawerPanel" tabindex="-1">
+    <button class="drawer-close" id="drawerClose" aria-label="Close details"><i data-lucide="x"></i></button>
+    <div id="drawerBody"></div>
+  </div>
+</aside>
+
+<!-- Celebration -->
+<div class="celebrate" id="celebrate" hidden role="dialog" aria-modal="true" aria-labelledby="celTitle">
+  <div class="bloom" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="cel-card">
+    <svg class="check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23" fill="none" stroke="#527A57" stroke-width="3"/><path d="M15 27l8 8 15-17" fill="none" stroke="#183D32" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2 id="celTitle"></h2>
+    <p id="celText"></p>
+    <button class="btn btn-primary" id="celClose" type="button">Thank you</button>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<footer class="footer">
+  <div class="foot-brand">
+    <svg class="brand-mark light" aria-hidden="true"><use href="#logo-mark"/></svg>
+    <strong>FoodLoop</strong>
+    <p>Good food deserves another destination.</p>
+  </div>
+  <nav aria-label="Footer">
+    <a href="#discover" data-route="discover">Discover Food</a>
+    <a href="#donate" data-route="donate">Donate Food</a>
+    <a href="#how" data-route="how">How It Works</a>
+    <a href="#impact" data-route="impact">Our Impact</a>
+    <a href="#dash" data-route="dash">Dashboards</a>
+  </nav>
+  <p class="foot-note">College community project. Listings and numbers are sample data stored in your browser. Notifications and calls are simulated.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/lucide@0.441.0/dist/umd/lucide.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
