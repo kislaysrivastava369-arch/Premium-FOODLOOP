@@ -33,6 +33,8 @@
   <span class="brand-word">FoodLoop</span>
 </a>
 
+<button class="acct" id="acct" type="button" aria-label="Account and verification status">Sign in</button>
+
 <!-- Hover-activated hamburger (top right) -->
 <div class="menu-wrap" id="menuWrap">
   <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
@@ -100,6 +102,10 @@
     </div>
   </div>
 
+  <section class="chapter who" id="who"><h2>Who Are You? Let’s Get Food to the Right People.</h2><div class="role-cards" id="roleCards"></div><p class="policy-note" id="policyNote"></p></section>
+  <section class="chapter chapter-flow"><h2>Verify first. Allocate second. Pay last.</h2><ol class="flow" id="flowSix" aria-label="Six step flow"></ol><h3>How an NGO becomes verified</h3><ol class="flow" id="flowNgo"></ol></section>
+  <section class="chapter duo" id="duo"></section>
+  <section class="chapter demo" id="demo"></section>
   <!-- Problem -->
   <section class="chapter chapter-problem">
     <h2 class="big">Too much food is wasted. Too many people need it.</h2>
@@ -273,7 +279,7 @@
       <label class="field"><span>Estimated servings</span><input id="dServings" type="number" min="1" max="2000" required><small class="err" data-for="dServings"></small></label>
       <label class="field"><span>Allergens (if known)</span><input id="dAllergens" placeholder="For example: nuts, dairy, gluten"></label>
     </div>
-    <label class="field"><span>Price per serving for individuals (₹)</span><input id="dPrice" type="number" min="0" max="100" step="1" value="5" required><small>Verified NGOs always receive food free. Individuals pay this small amount in a demo payment. Use 0 for free.</small><small class="err" data-for="dPrice"></small></label>
+    <label class="field"><span>Price per serving for individuals (₹)</span><input id="dPrice" type="number" min="0" max="100" step="1" value="5" required><small>Verified NGOs get food free; verified assistance recipients get it free in this demo; general individuals pay this amount, only after allocation. NGOs get a 30-minute priority window.</small><small class="err" data-for="dPrice"></small></label>
     <div class="two">
       <label class="field"><span>Cooked or made at</span><input id="dMade" type="time" required><small class="err" data-for="dMade"></small></label>
       <label class="field"><span>Collect before</span><input id="dDeadline" type="time" required><small class="err" data-for="dDeadline"></small></label>
@@ -317,6 +323,8 @@
 </div>
 
 <div class="modal" id="payModal" hidden role="dialog" aria-modal="true" aria-labelledby="payTitle"><div class="modal-card" id="payCard"></div></div>
+
+<div class="modal" id="authModal" hidden role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="modal-card" id="authCard"></div></div>
 
 <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
