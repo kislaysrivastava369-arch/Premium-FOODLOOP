@@ -273,6 +273,7 @@
       <label class="field"><span>Estimated servings</span><input id="dServings" type="number" min="1" max="2000" required><small class="err" data-for="dServings"></small></label>
       <label class="field"><span>Allergens (if known)</span><input id="dAllergens" placeholder="For example: nuts, dairy, gluten"></label>
     </div>
+    <label class="field"><span>Price per serving for individuals (₹)</span><input id="dPrice" type="number" min="0" max="100" step="1" value="5" required><small>Verified NGOs always receive food free. Individuals pay this small amount in a demo payment. Use 0 for free.</small><small class="err" data-for="dPrice"></small></label>
     <div class="two">
       <label class="field"><span>Cooked or made at</span><input id="dMade" type="time" required><small class="err" data-for="dMade"></small></label>
       <label class="field"><span>Collect before</span><input id="dDeadline" type="time" required><small class="err" data-for="dDeadline"></small></label>
@@ -314,6 +315,8 @@
     <button class="btn btn-primary" id="celClose" type="button">Thank you</button>
   </div>
 </div>
+
+<div class="modal" id="payModal" hidden role="dialog" aria-modal="true" aria-labelledby="payTitle"><div class="modal-card" id="payCard"></div></div>
 
 <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
